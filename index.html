@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="เว็บไซต์ Portfolio แนะนำตัว ผลงาน และกิจกรรม">
+  <title>My Portfolio | แฟ้มสะสมผลงาน</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --orange: #f47721;
+      --orange-dark: #d95d0b;
+      --orange-light: #fff1e6;
+      --ink: #292521;
+      --muted: #756e68;
+      --white: #fff;
+      --surface: #fffaf6;
+      --line: #f0e5dc;
+      --shadow: 0 14px 40px rgba(92, 54, 25, .09);
+      --radius: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 86px; }
+    body {
+      font-family: "Prompt", sans-serif;
+      color: var(--ink);
+      background: var(--white);
+      line-height: 1.75;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    .container { width: min(1120px, calc(100% - 40px)); margin: auto; }
+    .navbar {
+      position: sticky; top: 0; z-index: 20;
+      background: rgba(255,255,255,.92); backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(240,229,220,.8);
+    }
+    .nav-inner { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { font-size: 1.25rem; font-weight: 700; letter-spacing: -.5px; }
+    .brand span { color: var(--orange); }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a { color: var(--muted); font-size: .93rem; transition: color .2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--orange-dark); }
+    .menu-toggle {
+      display: none; border: 1px solid var(--line); background: white; border-radius: 10px;
+      width: 42px; height: 42px; cursor: pointer; color: var(--ink); font-size: 1.3rem;
+    }
+    .hero {
+      overflow: hidden; position: relative; padding: 100px 0 110px;
+      background: radial-gradient(circle at 85% 20%, #ffe4cf 0, transparent 27%),
+                  linear-gradient(135deg, #fffaf6 0%, #fff 68%);
+    }
+    .hero::after {
+      content: ""; position: absolute; width: 330px; height: 330px; border: 1px solid #ffd7bb;
+      border-radius: 50%; right: -120px; bottom: -210px;
+    }
+    .hero-grid { display: grid; grid-template-columns: 1.2fr .8fr; align-items: center; gap: 60px; position: relative; z-index: 1; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: var(--orange-dark); background: var(--orange-light); padding: 7px 15px; border-radius: 99px; font-size: .85rem; font-weight: 500; }
+    .eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--orange); }
+    h1 { font-size: clamp(2.5rem, 6vw, 4.6rem); line-height: 1.2; letter-spacing: -1.8px; margin: 22px 0 18px; }
+    h1 span { color: var(--orange); }
+    .hero-copy { max-width: 590px; color: var(--muted); font-size: 1.05rem; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 13px; margin-top: 30px; }
+    .btn { display: inline-flex; justify-content: center; align-items: center; gap: 9px; padding: 12px 22px; border-radius: 12px; font-weight: 500; transition: transform .2s, box-shadow .2s, background .2s; cursor: pointer; border: 1px solid transparent; }
+    .btn:hover { transform: translateY(-3px); }
+    .btn-primary { background: var(--orange); color: white; box-shadow: 0 8px 20px rgba(244,119,33,.22); }
+    .btn-primary:hover { background: var(--orange-dark); }
+    .btn-outline { border-color: var(--line); background: white; }
+    .btn-outline:hover { border-color: var(--orange); color: var(--orange-dark); }
+    .profile-art { width: min(330px, 100%); aspect-ratio: 1; margin: auto; border-radius: 38% 62% 57% 43% / 43% 42% 58% 57%; background: linear-gradient(145deg, #ffb77f, #f47721); display: grid; place-items: center; box-shadow: 25px 25px 0 #fff0e5; transform: rotate(4deg); }
+    .profile-art-inner { width: 78%; height: 78%; border: 2px dashed rgba(255,255,255,.65); border-radius: inherit; display: grid; place-items: center; color: white; text-align: center; transform: rotate(-4deg); }
+    .profile-art-inner .avatar { font-size: 5rem; line-height: 1.2; }
+    .profile-art-inner p { font-size: .9rem; font-weight: 500; }
+    section { padding: 88px 0; }
+    .section-heading { text-align: center; margin-bottom: 42px; }
+    .section-kicker { color: var(--orange); font-size: .85rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; }
+    h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); line-height: 1.35; margin-top: 7px; }
+    .section-heading p { color: var(--muted); margin-top: 9px; }
+    .about-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 48px; align-items: center; }
+    .about-note { background: var(--orange-light); padding: 35px; border-radius: var(--radius); position: relative; }
+    .about-note .quote { font-size: 2.5rem; color: var(--orange); line-height: 1; }
+    .about-note p { font-size: 1.1rem; font-weight: 500; margin-top: 12px; }
+    .about-content p { color: var(--muted); margin-bottom: 17px; }
+    .info-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 22px; }
+    .info-item { background: var(--surface); border: 1px solid var(--line); padding: 13px 15px; border-radius: 13px; font-size: .9rem; }
+    .info-item strong { display: block; color: var(--orange-dark); font-size: .78rem; font-weight: 500; }
+    .skills { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 20px; }
+    .skill { background: white; border: 1px solid var(--line); border-radius: 99px; padding: 6px 13px; font-size: .82rem; color: var(--muted); }
+    .portfolio { background: var(--surface); }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .project-card, .activity-card { background: white; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; transition: transform .25s, box-shadow .25s; }
+    .project-card:hover, .activity-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+    .project-cover { height: 175px; display: grid; place-items: center; font-size: 3.5rem; background: linear-gradient(135deg, #ffe3cf, #fff4eb); }
+    .project-card:nth-child(2) .project-cover { background: linear-gradient(135deg, #ffe9c8, #fff7e9); }
+    .project-card:nth-child(3) .project-cover { background: linear-gradient(135deg, #ffddd8, #fff0ed); }
+    .card-body { padding: 22px; }
+    .tag { display: inline-block; color: var(--orange-dark); background: var(--orange-light); padding: 4px 10px; border-radius: 99px; font-size: .73rem; font-weight: 500; }
+    .card-body h3 { font-size: 1.12rem; margin: 12px 0 7px; }
+    .card-body p { color: var(--muted); font-size: .88rem; min-height: 62px; }
+    .card-link { display: inline-flex; align-items: center; gap: 7px; color: var(--orange-dark); font-size: .88rem; font-weight: 600; margin-top: 15px; }
+    .card-link:hover { gap: 12px; }
+    .activities-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .activity-card { display: flex; gap: 18px; padding: 23px; }
+    .activity-icon { flex: 0 0 55px; width: 55px; height: 55px; display: grid; place-items: center; background: var(--orange-light); border-radius: 15px; font-size: 1.6rem; }
+    .activity-card h3 { font-size: 1.05rem; margin-bottom: 4px; }
+    .activity-card p { color: var(--muted); font-size: .88rem; }
+    .activity-date { color: var(--orange-dark); font-size: .78rem; font-weight: 500; }
+    .contact { background: #292521; color: white; padding: 65px 0 25px; }
+    .contact-grid { display: flex; justify-content: space-between; gap: 35px; align-items: flex-start; padding-bottom: 42px; }
+    .contact h2 { font-size: 1.8rem; }
+    .contact p { color: #c9c0b9; margin-top: 10px; max-width: 480px; }
+    .contact-links { display: flex; flex-wrap: wrap; gap: 12px; }
+    .contact-links a { border: 1px solid #514941; padding: 10px 15px; border-radius: 10px; color: #fff; font-size: .88rem; }
+    .contact-links a:hover { border-color: var(--orange); color: #ffb77f; }
+    .copyright { border-top: 1px solid #514941; padding-top: 20px; text-align: center; color: #a99f97; font-size: .8rem; }
+    .back-top { position: fixed; right: 22px; bottom: 22px; width: 44px; height: 44px; border: 0; border-radius: 13px; background: var(--orange); color: white; font-size: 1.2rem; cursor: pointer; box-shadow: var(--shadow); display: none; z-index: 10; }
+    .back-top.show { display: block; }
+    @media (max-width: 800px) {
+      .hero { padding: 72px 0 85px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 55px; text-align: center; }
+      .hero-copy { margin: auto; }
+      .hero-actions { justify-content: center; }
+      .profile-art { width: 250px; }
+      .about-grid { grid-template-columns: 1fr; gap: 25px; }
+      .cards { grid-template-columns: repeat(2, 1fr); }
+      .contact-grid { flex-direction: column; }
+    }
+    @media (max-width: 600px) {
+      .container { width: min(100% - 30px, 1120px); }
+      .nav-inner { min-height: 68px; }
+      .menu-toggle { display: block; }
+      .nav-links {
+        display: none; position: absolute; top: 68px; left: 0; right: 0; background: white;
+        padding: 18px 22px 22px; border-bottom: 1px solid var(--line); flex-direction: column; align-items: stretch; gap: 13px;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { display: block; padding: 5px 0; }
+      h1 { letter-spacing: -1px; }
+      section { padding: 68px 0; }
+      .cards, .activities-grid { grid-template-columns: 1fr; }
+      .info-list { grid-template-columns: 1fr 1fr; }
+      .activity-card { padding: 18px; }
+      .contact-links { gap: 9px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <!-- แถบเมนูนำทาง -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a class="brand" href="#home">MY<span>PORT</span>FOLIO.</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="เปิดเมนู" aria-expanded="false">☰</button>
+      <nav aria-label="เมนูหลัก">
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#home" class="active">หน้าแรก</a></li>
+          <li><a href="#about">แนะนำตัว</a></li>
+          <li><a href="#portfolio">ผลงาน</a></li>
+          <li><a href="#activities">กิจกรรม</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1. หน้าแรก -->
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">WELCOME TO MY PORTFOLIO</span>
+          <h1>สวัสดี! เราคือ<br><span>ชื่อ - นามสกุล</span></h1>
+          <p class="hero-copy">นักเรียนที่ชื่นชอบการเรียนรู้และสร้างสรรค์สิ่งใหม่ ๆ เว็บไซต์นี้รวบรวมประวัติ ผลงาน และกิจกรรมที่ภาคภูมิใจของเราไว้ในที่เดียว</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#portfolio">ชมผลงาน <span>↗</span></a>
+            <a class="btn btn-outline" href="https://github.com/your-username" target="_blank" rel="noopener noreferrer">ดู GitHub ↗</a>
+          </div>
+        </div>
+        <div class="profile-art" aria-label="พื้นที่ตกแต่งรูปโปรไฟล์">
+          <div class="profile-art-inner">
+            <div>
+              <div class="avatar">👋</div>
+              <p>Nice to meet you!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. แนะนำตัว -->
+    <section id="about">
+      <div class="container">
+        <div class="section-heading">
+          <span class="section-kicker">ABOUT ME</span>
+          <h2>มาทำความรู้จักกัน</h2>
+          <p>พื้นที่เล็ก ๆ สำหรับเล่าเรื่องราวของฉัน</p>
+        </div>
+        <div class="about-grid">
+          <div class="about-note">
+            <div class="quote">“</div>
+            <p>ทุกความสำเร็จเริ่มต้นจากการกล้าที่จะเรียนรู้และลงมือทำ</p>
+          </div>
+          <div class="about-content">
+            <p>สวัสดี เราชื่อ <strong>ชื่อ - นามสกุล</strong> ปัจจุบันกำลังศึกษาอยู่ที่ <strong>ชื่อโรงเรียน</strong> สนใจด้านเทคโนโลยี การออกแบบ และการพัฒนาทักษะใหม่ ๆ อยู่เสมอ</p>
+            <p>เป้าหมายของเราคือการนำความรู้มาสร้างผลงานที่มีประโยชน์ พร้อมพัฒนาตัวเองให้ดีขึ้นในทุกวัน</p>
+            <div class="info-list">
+              <div class="info-item"><strong>ชื่อเล่น</strong>ชื่อเล่นของคุณ</div>
+              <div class="info-item"><strong>ระดับชั้น</strong>มัธยมศึกษาปีที่ ...</div>
+              <div class="info-item"><strong>สถานศึกษา</strong>ชื่อโรงเรียน</div>
+              <div class="info-item"><strong>ความสนใจ</strong>เทคโนโลยีและการออกแบบ</div>
+            </div>
+            <div class="skills" aria-label="ทักษะ">
+              <span class="skill">HTML</span><span class="skill">CSS</span><span class="skill">JavaScript</span><span class="skill">ออกแบบ</span><span class="skill">ทำงานเป็นทีม</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. ผลงาน -->
+    <section class="portfolio" id="portfolio">
+      <div class="container">
+        <div class="section-heading">
+          <span class="section-kicker">MY PORTFOLIO</span>
+          <h2>ผลงานของฉัน</h2>
+          <p>ตัวอย่างผลงานและโปรเจกต์ที่ได้ลงมือทำ</p>
+        </div>
+        <div class="cards">
+          <article class="project-card">
+            <div class="project-cover" aria-hidden="true">💻</div>
+            <div class="card-body">
+              <span class="tag">เว็บไซต์</span>
+              <h3>เว็บไซต์แนะนำตัว</h3>
+              <p>เว็บไซต์ Portfolio ที่สร้างด้วย HTML และ CSS เพื่อรวบรวมข้อมูลและนำเสนอผลงาน</p>
+              <a class="card-link" href="https://github.com/your-username" target="_blank" rel="noopener noreferrer">ดูรายละเอียด <span>→</span></a>
+            </div>
+          </article>
+          <article class="project-card">
+            <div class="project-cover" aria-hidden="true">🎨</div>
+            <div class="card-body">
+              <span class="tag">งานออกแบบ</span>
+              <h3>โปสเตอร์ประชาสัมพันธ์</h3>
+              <p>ออกแบบสื่อประชาสัมพันธ์โดยคำนึงถึงความสวยงามและการสื่อสารที่เข้าใจง่าย</p>
+              <a class="card-link" href="https://github.com/your-username" target="_blank" rel="noopener noreferrer">ดูรายละเอียด <span>→</span></a>
+            </div>
+          </article>
+          <article class="project-card">
+            <div class="project-cover" aria-hidden="true">📱</div>
+            <div class="card-body">
+              <span class="tag">โปรเจกต์</span>
+              <h3>โปรเจกต์เพื่อการเรียนรู้</h3>
+              <p>ทดลองสร้างชิ้นงานขนาดเล็กเพื่อฝึกการคิดวิเคราะห์และแก้ปัญหาอย่างเป็นขั้นตอน</p>
+              <a class="card-link" href="https://github.com/your-username" target="_blank" rel="noopener noreferrer">ดูรายละเอียด <span>→</span></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. กิจกรรม -->
+    <section id="activities">
+      <div class="container">
+        <div class="section-heading">
+          <span class="section-kicker">ACTIVITIES</span>
+          <h2>กิจกรรมและประสบการณ์</h2>
+          <p>ประสบการณ์ที่ช่วยเพิ่มพูนทักษะและการเรียนรู้</p>
+        </div>
+        <div class="activities-grid">
+          <article class="activity-card">
+            <div class="activity-icon" aria-hidden="true">🏆</div>
+            <div><span class="activity-date">ปีการศึกษา 2568</span><h3>เข้าร่วมการแข่งขันทักษะ</h3><p>ฝึกฝนการแก้ปัญหา การวางแผน และการทำงานภายใต้เวลาที่กำหนด</p></div>
+          </article>
+          <article class="activity-card">
+            <div class="activity-icon" aria-hidden="true">🤝</div>
+            <div><span class="activity-date">ปีการศึกษา 2568</span><h3>กิจกรรมจิตอาสา</h3><p>ร่วมทำกิจกรรมเพื่อส่วนรวมและเรียนรู้การทำงานร่วมกับผู้อื่น</p></div>
+          </article>
+          <article class="activity-card">
+            <div class="activity-icon" aria-hidden="true">💡</div>
+            <div><span class="activity-date">ปีการศึกษา 2567</span><h3>อบรมความรู้ด้านเทคโนโลยี</h3><p>เปิดประสบการณ์และเรียนรู้เครื่องมือใหม่ ๆ ที่สามารถนำไปต่อยอดได้</p></div>
+          </article>
+          <article class="activity-card">
+            <div class="activity-icon" aria-hidden="true">🎤</div>
+            <div><span class="activity-date">ปีการศึกษา 2567</span><h3>กิจกรรมภายในโรงเรียน</h3><p>ฝึกความมั่นใจ การสื่อสาร และความรับผิดชอบผ่านการทำกิจกรรม</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ส่วนท้าย: ใช้ช่องทางติดต่อสาธารณะเท่านั้น -->
+  <footer class="contact" id="contact">
+    <div class="container">
+      <div class="contact-grid">
+        <div>
+          <span class="section-kicker">GET IN TOUCH</span>
+          <h2>ขอบคุณที่เข้ามาเยี่ยมชม!</h2>
+          <p>สามารถติดตามผลงานหรือพูดคุยเกี่ยวกับโปรเจกต์ได้ผ่านช่องทางสาธารณะด้านล่างนี้</p>
+        </div>
+        <div class="contact-links">
+          <a href="https://github.com/your-username" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+          <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+          <a href="mailto:your-public-email@example.com">อีเมลสาธารณะ ↗</a>
+        </div>
+      </div>
+      <div class="copyright">© <span id="year"></span> ชื่อ - นามสกุล · Made with <span style="color:#ff9b59">♥</span></div>
+    </div>
+  </footer>
+
+  <button class="back-top" id="backTop" aria-label="กลับไปด้านบน">↑</button>
+
+  <script>
+    // เปิด-ปิดเมนูบนหน้าจอขนาดเล็ก
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
+
+    menuToggle.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("open");
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+      menuToggle.textContent = isOpen ? "✕" : "☰";
+    });
+
+    // กดเมนูแล้วเลื่อนหน้า พร้อมปิดเมนูบนมือถือ
+    document.querySelectorAll(".nav-links a").forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.textContent = "☰";
+        document.querySelectorAll(".nav-links a").forEach(item => item.classList.remove("active"));
+        link.classList.add("active");
+      });
+    });
+
+    // ปุ่มกลับไปด้านบน
+    const backTop = document.getElementById("backTop");
+    window.addEventListener("scroll", () => {
+      backTop.classList.toggle("show", window.scrollY > 450);
+    });
+    backTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+    // ปีปัจจุบันในส่วนท้ายเว็บไซต์
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
